@@ -1,12 +1,13 @@
 package Automaton;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Класът Vertex представлява единичен връх в графа на автомата.
  * Всеки връх има уникален идентификатор, статус (финален/приемащ) и списък от изходящи дъги към други върхове.
  */
-public class Vertex {
+public class Vertex implements Serializable {
     private int id;
     private ArrayList<Arc> arcs;
     private boolean isFinal;

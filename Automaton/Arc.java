@@ -1,10 +1,12 @@
 package Automaton;
 
+import java.io.Serializable;
+
 /**
  * Класът Arc представлява насочена дъга в графа на недетерминирания краен автомат.
  * Всяка дъга има символ от азбуката или епсилон(празна дума) и сочи към конкретен връх.
  */
-public class Arc {
+public class Arc implements Serializable {
     /** * Константа за празна дума.
      */
     public static final char EPSILON = 'ε';
