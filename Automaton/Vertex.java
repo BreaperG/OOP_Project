@@ -31,6 +31,9 @@ public class Vertex implements Serializable {
     public void setFinal(boolean isFinal){
         this.isFinal= isFinal;
     }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void addArc(char symbol,Vertex pointedVertex){
         arcs.add(new Arc(symbol,pointedVertex));
