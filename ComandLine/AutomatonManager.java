@@ -83,39 +83,120 @@ public class AutomatonManager {
         return printOp.execute(automaton);
     }
 
-    public void isLanguageEmpty(int id){
+    public boolean recognizeWord(int id, String word) throws Exception {
+        Automaton automaton = this.automata.get(id);
+        if (automaton == null) {
+            throw new IllegalArgumentException("Автомат с ID " + id + " не съществува.");
+        }
 
+        RecognizeOperation recognizeOp = new RecognizeOperation();
+        return recognizeOp.execute(automaton, word);
     }
 
-    public void isDeterministic(int id){
+    public boolean isLanguageEmpty(int id) {
+        Automaton automaton = this.automata.get(id);
+        if (automaton == null) {
+            throw new IllegalArgumentException("Автомат с ID " + id + " не съществува.");
+        }
 
+        IsEmptyOperation emptyOp = new IsEmptyOperation();
+        return emptyOp.execute(automaton);
     }
 
-    public void recognizeWord(int id, String word){
+    public int unionAutomata(int id1, int id2) throws Exception {
+        Automaton a1 = this.automata.get(id1);
+        Automaton a2 = this.automata.get(id2);
 
+        if (a1 == null || a2 == null) {
+            throw new IllegalArgumentException("Един или и двата автомата не съществуват.");
+        }
+
+        int newId = nextAutomatonId++;
+        UnionOperation unionOp = new UnionOperation();
+        Automaton newAutomaton = unionOp.execute(a1, a2, newId);
+
+        this.automata.put(newId, newAutomaton);
+        return newId;
     }
 
-    public void unionAutomata(int id1, int id2){
+    public int concatAutomata(int id1, int id2) throws Exception {
+        Automaton a1 = this.automata.get(id1);
+        Automaton a2 = this.automata.get(id2);
 
+        if (a1 == null || a2 == null) {
+            throw new IllegalArgumentException("Един или и двата автомата не съществуват.");
+        }
+
+        int newId = nextAutomatonId++;
+        ConcatOperation concatOp = new ConcatOperation();
+        Automaton newAutomaton = concatOp.execute(a1, a2, newId);
+
+        this.automata.put(newId, newAutomaton);
+        return newId;
     }
 
-    public void concatAutomata(int id1, int id2){
+    public int positiveClosure(int id) throws Exception {
+        Automaton a = this.automata.get(id);
 
+        if (a == null) {
+            throw new IllegalArgumentException("Автомат с ID " + id + " не съществува.");
+        }
+
+        int newId = nextAutomatonId++;
+        PositiveClosureOperation closureOp = new PositiveClosureOperation();
+        Automaton newAutomaton = closureOp.execute(a, newId);
+
+        this.automata.put(newId, newAutomaton);
+        return newId;
     }
 
-    public void positiveClosure(int id){
+    public int createFromRegex(String regex) throws Exception {
+        CreateFromRegexOperation regexOp = new CreateFromRegexOperation();
 
+        Automaton newAutomaton = regexOp.execute(regex);
+
+        int newId = nextAutomatonId++;
+        newAutomaton.setId(newId);
+
+        this.automata.put(newId, newAutomaton);
+
+        return newId;
     }
 
-    public void createFromRegex(String regex){
+    public int determinizeAutomaton(int id) throws Exception {
+        Automaton nfa = this.automata.get(id);
 
+        if (nfa == null) {
+            throw new IllegalArgumentException("Автомат с ID " + id + " не съществува.");
+        }
+
+        int newId = nextAutomatonId++;
+        DeterminizeOperation determOp = new DeterminizeOperation();
+        Automaton dfa = determOp.execute(nfa, newId);
+
+        this.automata.put(newId, dfa);
+        return newId;
+    }
+    public boolean isLanguageFinite(int id) {
+        Automaton automaton = this.automata.get(id);
+
+        if (automaton == null) {
+            throw new IllegalArgumentException("Автомат с ID " + id + " не съществува.");
+        }
+
+        IsFiniteOperation finiteOp = new IsFiniteOperation();
+        return finiteOp.execute(automaton);
     }
 
-    public void determinizeAutomaton(int id){
+    public boolean isDeterministic(int id) {
+        Automaton automaton = this.automata.get(id);
 
+        if (automaton == null) {
+            throw new IllegalArgumentException("Автомат с ID " + id + " не съществува.");
+        }
+
+        IsDeterministicOperation checkOp = new IsDeterministicOperation();
+        return checkOp.execute(automaton);
     }
 
-    public void isLanguageFinite(int id){
-
-    }
-} // <--- Едва тук е истинският край на класа
+}
