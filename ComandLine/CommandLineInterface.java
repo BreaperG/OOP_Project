@@ -4,11 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Класът CommandLineInterface отговаря за взаимодействието с потребителя чрез конзолата.
+ * Обработва потребителския вход, инициализира командите и ги предава за изпълнение.
+ */
 public class CommandLineInterface {
     private Map<String, Command> commands;
     private AutomatonManager manager;
     private String currentOpenedFile;
 
+    /**
+     * Конструктор, който инициализира всички поддържани команди в системата.
+     */
     public CommandLineInterface() {
         this.commands = new HashMap<>();
         this.manager = new AutomatonManager();
@@ -277,6 +284,9 @@ public class CommandLineInterface {
         });
     }
 
+    /**
+     * Стартира безкрайния цикъл за четене на команди от конзолата.
+     */
     public void start() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Системата е стартирана. Въведете 'open <име_на_файл>' за начало.");
