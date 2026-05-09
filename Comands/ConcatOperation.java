@@ -6,8 +6,20 @@ import Automaton.Vertex;
 
 import java.io.*;
 
+/**
+ * Операция за конкатениране (слепване) на два автомата по алгоритъма на Томпсън.
+ */
 public class ConcatOperation {
 
+    /**
+     * Изпълнява конкатенацията, създавайки напълно нов автомат.
+     *
+     * @param a1 Първият автомат.
+     * @param a2 Вторият автомат.
+     * @param newId ID на новосъздадения автомат.
+     * @return Готовият конкатениран автомат.
+     * @throws Exception Ако възникне грешка при клонирането на обектите.
+     */
     public Automaton execute(Automaton a1, Automaton a2, int newId) throws Exception {
         Automaton copy1 = deepCopy(a1);
         Automaton copy2 = deepCopy(a2);
@@ -38,6 +50,13 @@ public class ConcatOperation {
         return result;
     }
 
+    /**
+     * Прави дълбоко копие на автомат чрез сериализация в паметта, за да запази оригинала.
+     *
+     * @param original Оригиналният автомат.
+     * @return Клонираният автомат.
+     * @throws Exception При I/O грешка по време на сериализацията.
+     */
     private Automaton deepCopy(Automaton original) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);

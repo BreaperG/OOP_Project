@@ -7,8 +7,17 @@ import Automaton.Vertex;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Операция за генериране на четима текстова репрезентация на автомата.
+ */
 public class PrintOperation {
 
+    /**
+     * Извлича всички върхове и дъги и ги форматира като текст.
+     *
+     * @param automaton Автоматът за отпечатване.
+     * @return Форматиран String, описващ структурата на графа.
+     */
     public String execute(Automaton automaton) {
         StringBuilder sb = new StringBuilder();
 

@@ -4,8 +4,19 @@ import Automaton.Vertex;
 
 import java.util.Stack;
 
+/**
+ * Операция за конструиране на автомат директно от регулярен израз.
+ * Използва парсинг до обратен полски запис и извиква базовите операции на Томпсън.
+ */
 public class CreateFromRegexOperation {
 
+    /**
+     * Изгражда НКА въз основа на подадения регулярен израз.
+     *
+     * @param regex Регулярният израз като низ.
+     * @return Готовият автомат, представляващ израза.
+     * @throws Exception Ако изразът е синтактично невалиден.
+     */
     public Automaton execute(String regex) throws Exception {
         String withConcat = insertExplicitConcat(regex);
         String postfix = toPostfix(withConcat);
@@ -35,6 +46,12 @@ public class CreateFromRegexOperation {
         return stack.pop();
     }
 
+    /**
+     * Създава базов автомат само с една дъга (за единична буква).
+     *
+     * @param symbol Буквата на прехода.
+     * @return Базов автомат.
+     */
     private Automaton createBasicAutomaton(char symbol) {
         Automaton a = new Automaton(0);
         Vertex start = a.getStartVertex();
@@ -44,6 +61,12 @@ public class CreateFromRegexOperation {
         return a;
     }
 
+    /**
+     * Добавя експлицитен символ за конкатенация (точка) между съседните символи.
+     *
+     * @param regex Оригиналният израз.
+     * @return Изразът с добавени точки.
+     */
     private String insertExplicitConcat(String regex) {
         StringBuilder res = new StringBuilder();
         for (int i = 0; i < regex.length(); i++) {
@@ -61,6 +84,12 @@ public class CreateFromRegexOperation {
         return res.toString();
     }
 
+    /**
+     * Преобразува инфиксен израз в постфиксен запис.
+     *
+     * @param infix Инфиксен израз.
+     * @return Постфиксен израз.
+     */
     private String toPostfix(String infix) {
         StringBuilder postfix = new StringBuilder();
         Stack<Character> stack = new Stack<>();
@@ -87,6 +116,12 @@ public class CreateFromRegexOperation {
         return postfix.toString();
     }
 
+    /**
+     * Определя приоритета на операторите.
+     *
+     * @param c Оператор.
+     * @return Приоритетът на оператора.
+     */
     private int precedence(char c) {
         if (c == '*') return 3;
         if (c == '.') return 2;

@@ -7,8 +7,18 @@ import Automaton.Arc;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Операция за проверка дали автоматът разпознава подадена дума (символен низ).
+ */
 public class RecognizeOperation {
 
+    /**
+     * Симулира движението на думата през графа на автомата, вземайки предвид епсилон преходите.
+     *
+     * @param automaton Автоматът.
+     * @param word Думата за разпознаване.
+     * @return true, ако думата стига до финален връх, иначе false.
+     */
     public boolean execute(Automaton automaton, String word) {
         Set<Vertex> currentStates = new HashSet<>();
         currentStates.add(automaton.getStartVertex());
@@ -42,6 +52,12 @@ public class RecognizeOperation {
         return false;
     }
 
+    /**
+     * Намира епсилон обвивката за дадено множество от състояния.
+     *
+     * @param states Множество от върхове.
+     * @return Разширеното множество с върховете, достижими безплатно (с епсилон).
+     */
     private Set<Vertex> epsilonClosure(Set<Vertex> states) {
         Set<Vertex> closure = new HashSet<>(states);
         boolean changed = true;

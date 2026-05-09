@@ -6,8 +6,19 @@ import Automaton.Vertex;
 
 import java.util.*;
 
+/**
+ * Операция за преобразуване на Недетерминиран краен автомат (НКА) в Детерминиран (ДКА).
+ * Имплементира алгоритъма Subset Construction (Построение чрез подмножества).
+ */
 public class DeterminizeOperation {
 
+    /**
+     * Детерминизира подадения НКА.
+     *
+     * @param nfa Оригиналният недетерминиран автомат.
+     * @param newId Уникалното ID, което ще бъде дадено на новия ДКА.
+     * @return Новият детерминиран автомат.
+     */
     public Automaton execute(Automaton nfa, int newId) {
         Automaton dfa = new Automaton(newId);
         Set<Character> alphabet = getAlphabet(nfa);
@@ -63,6 +74,12 @@ public class DeterminizeOperation {
         return dfa;
     }
 
+    /**
+     * Извлича всички използвани символи от азбуката на автомата (без епсилон).
+     *
+     * @param automaton Автоматът.
+     * @return Множество от символи.
+     */
     private Set<Character> getAlphabet(Automaton automaton) {
         Set<Character> alphabet = new HashSet<>();
         for (Vertex v : automaton.getVertices()) {
@@ -75,6 +92,12 @@ public class DeterminizeOperation {
         return alphabet;
     }
 
+    /**
+     * Намира епсилон обвивката на множество от върхове.
+     *
+     * @param states Началните върхове.
+     * @return Множеството от всички върхове, достижими само по епсилон преходи.
+     */
     private Set<Vertex> epsilonClosure(Set<Vertex> states) {
         Set<Vertex> closure = new HashSet<>(states);
         Stack<Vertex> stack = new Stack<>();
@@ -95,6 +118,12 @@ public class DeterminizeOperation {
         return closure;
     }
 
+    /**
+     * Връща множество от идентификаторите на подадените върхове (използва се за ключ в Map).
+     *
+     * @param states Върховете.
+     * @return Множество от ID-та.
+     */
     private Set<Integer> getIds(Set<Vertex> states) {
         Set<Integer> ids = new HashSet<>();
         for (Vertex v : states) {
@@ -103,6 +132,12 @@ public class DeterminizeOperation {
         return ids;
     }
 
+    /**
+     * Проверява дали в дадено подмножество има поне един финален връх.
+     *
+     * @param states Подмножество от върхове.
+     * @return true, ако има финален връх.
+     */
     private boolean containsFinal(Set<Vertex> states) {
         for (Vertex v : states) {
             if (v.isFinal()) {
